@@ -75,10 +75,10 @@ export function Header() {
 
         {/* Right: wallet + collapsibles */}
         <div className="flex items-center gap-2 sm:gap-3">
-          <div className="hidden md:block">
+          <div className="hidden xl:block">
             <SearchBar />
           </div>
-          <button className="btn-ghost hidden md:inline-flex">
+          <button className="btn-ghost hidden xl:inline-flex">
             <Bell size={12} />
             ALERTS
             <span className="badge badge-gain ml-1">3</span>
@@ -88,7 +88,7 @@ export function Header() {
             chainStatus={{ smallScreen: "icon", largeScreen: "icon" }}
             showBalance={false}
           />
-          <div className="hidden items-center gap-2 border-l border-[color:var(--color-border)] pl-3 xl:flex">
+          <div className="hidden items-center gap-2 border-l border-[color:var(--color-border)] pl-3 2xl:flex">
             <span className="pulse-dot" />
             <div className="leading-tight">
               <div className="font-mono text-[11px]">MANTLE · {block.toLocaleString()}</div>
@@ -101,7 +101,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMobileOpen((o) => !o)}
-            className="grid h-8 w-8 shrink-0 place-items-center border border-[color:var(--color-border)] text-[color:var(--color-text-secondary)] lg:hidden"
+            className="grid h-8 w-8 shrink-0 place-items-center border border-[color:var(--color-border)] text-[color:var(--color-text-secondary)] xl:hidden"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
           >
@@ -111,11 +111,11 @@ export function Header() {
       </div>
 
       {mobileOpen ? (
-        <div className="border-t border-[color:var(--color-border)] bg-[color:var(--color-surface-2)] px-3 py-3 lg:hidden">
-          <div className="mb-3 md:hidden">
+        <div className="border-t border-[color:var(--color-border)] bg-[color:var(--color-surface-2)] px-3 py-3 xl:hidden">
+          <div className="mb-3">
             <SearchBar />
           </div>
-          <nav className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
+          <nav className="grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:hidden">
             {NAV.map(({ label, href }) => {
               const active = pathname === href;
               return (
