@@ -29,6 +29,11 @@ const config: HardhatUserConfig = {
       accounts: DEPLOYER_KEY ? [DEPLOYER_KEY] : [],
     },
   },
+  sourcify: {
+    enabled: true,
+    apiUrl: "https://sourcify.dev/server",
+    browserUrl: "https://repo.sourcify.dev",
+  },
   etherscan: {
     apiKey: {
       mantleSepolia: MANTLESCAN_API_KEY,
