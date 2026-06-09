@@ -1,11 +1,12 @@
 "use client";
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Activity, Menu, Terminal, X } from "lucide-react";
+import { Activity, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SearchBar } from "./search-bar";
+import { Sigil } from "./sigil";
 
 const NAV = [
   { label: "DASHBOARD", href: "/app" },
@@ -43,7 +44,7 @@ export function Header() {
         <div className="flex min-w-0 items-center gap-3 lg:gap-4">
           <Link href="/" className="flex shrink-0 items-center gap-2">
             <div className="grid h-7 w-7 place-items-center bg-[color:var(--color-primary)] text-[#03111a]">
-              <Terminal size={14} strokeWidth={2.5} />
+              <Sigil size={16} />
             </div>
             <div className="leading-tight">
               <div className="font-mono text-[13px] font-semibold tracking-tight">
