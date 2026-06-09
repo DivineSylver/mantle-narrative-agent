@@ -139,7 +139,7 @@ export function WhaleTracker() {
         {filtered.map((w) => {
           const t = TYPE_META[w.type];
           const Icon = t.icon;
-          const href = w.txHash ? `${EXPLORER}/tx/${w.txHash}` : `${EXPLORER}/address/${w.wallet}`;
+          const href = `${EXPLORER}/address/${w.wallet}`;
           return (
             <li key={w.id}>
               <a
@@ -147,7 +147,7 @@ export function WhaleTracker() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="row-hover grid grid-cols-12 items-center gap-2 px-4 py-2.5 cursor-pointer"
-                title={w.txHash ? `View tx on Mantlescan` : `View wallet on Mantlescan`}
+                title="View wallet on Mantlescan"
               >
                 <div className="col-span-1">
                   <Icon size={14} className={t.color} />
