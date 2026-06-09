@@ -1,7 +1,7 @@
 "use client";
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Activity, Bell, Menu, Terminal, X } from "lucide-react";
+import { Activity, Menu, Terminal, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -78,11 +78,6 @@ export function Header() {
           <div className="hidden xl:block">
             <SearchBar />
           </div>
-          <button className="btn-ghost hidden xl:inline-flex">
-            <Bell size={12} />
-            ALERTS
-            <span className="badge badge-gain ml-1">3</span>
-          </button>
           <ConnectButton
             accountStatus={{ smallScreen: "avatar", largeScreen: "address" }}
             chainStatus={{ smallScreen: "icon", largeScreen: "icon" }}
