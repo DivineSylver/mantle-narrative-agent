@@ -4,6 +4,17 @@
 
 **Track:** Alpha & Data — Human-Driven Data & Analytics (+ AI-Driven Trading Strategy)
 
+## Live demo
+
+| What | Where |
+|---|---|
+| Frontend | https://mantle-narrative-agent-tuu6.vercel.app |
+| Backend API | https://mantle-narrative-api.onrender.com |
+| Smart contract | [`0xfA6a1B789Ea499eBCCefb08aacB8637a0CB3a677`](https://sepolia.mantlescan.xyz/address/0xfA6a1B789Ea499eBCCefb08aacB8637a0CB3a677) (Mantle Sepolia, verified) |
+| Source | https://github.com/DivineSylver/mantle-narrative-agent |
+
+Try it: open the frontend, go to **Predictions** → click **Generate AI Signal** → wait ~15s → the new prediction lands on Mantle Sepolia with a clickable Mantlescan link.
+
 ---
 
 ## Architecture
@@ -121,13 +132,13 @@ Deployed addresses: see `contracts/deployments/`.
 
 ## Submission checklist
 
-- [x] Mantle Network deployment (`contracts/`)
-- [x] Open-source GitHub repo
-- [x] Public frontend URL (deploy `frontend/` to Vercel)
+- [x] Mantle Network deployment — Sepolia, [`0xfA6a1B789Ea499eBCCefb08aacB8637a0CB3a677`](https://sepolia.mantlescan.xyz/address/0xfA6a1B789Ea499eBCCefb08aacB8637a0CB3a677)
+- [x] Open-source GitHub repo — https://github.com/DivineSylver/mantle-narrative-agent
+- [x] Public frontend URL — https://mantle-narrative-agent-tuu6.vercel.app
 - [ ] Demo video (2+ min)
-- [x] Verified smart contract (Mantlescan)
+- [x] Verified smart contract (Mantlescan, Exact Match via Sourcify)
 - [x] AI function callable on-chain (`recordPrediction` from backend signer)
-- [x] Documentation (this file + per-component READMEs)
+- [x] Documentation (this file + per-component READMEs + `DEPLOY.md`)
 
 ## Design system
 
