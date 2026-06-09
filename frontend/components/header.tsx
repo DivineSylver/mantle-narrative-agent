@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { SearchBar } from "./search-bar";
 
 const NAV = [
-  { label: "DASHBOARD", href: "/" },
+  { label: "DASHBOARD", href: "/app" },
   { label: "NARRATIVES", href: "/narratives" },
   { label: "WALLETS", href: "/wallets" },
   { label: "PREDICTIONS", href: "/predictions" },
