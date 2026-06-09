@@ -12,12 +12,12 @@ export function KpiStrip() {
         return (
           <div
             key={kpi.label}
-            className={`flex items-center justify-between gap-4 px-4 py-3 ${
+            className={`flex items-center justify-between gap-2 px-3 py-2.5 sm:gap-4 sm:px-4 sm:py-3 ${
               i < kpis.length - 1 ? "border-r border-[color:var(--color-border)]" : ""
             }`}
           >
-            <div className="flex flex-col gap-1">
-              <div className="label-meta">{kpi.label}</div>
+            <div className="flex min-w-0 flex-col gap-0.5">
+              <div className="label-meta truncate">{kpi.label}</div>
               <div className="stat-value">{kpi.value}</div>
               {kpi.change ? (
                 <div
@@ -29,7 +29,11 @@ export function KpiStrip() {
                 </div>
               ) : null}
             </div>
-            {kpi.trend ? <Sparkline points={kpi.trend} positive={pos} width={72} height={28} /> : null}
+            {kpi.trend ? (
+              <div className="hidden sm:block">
+                <Sparkline points={kpi.trend} positive={pos} width={72} height={28} />
+              </div>
+            ) : null}
           </div>
         );
       })}

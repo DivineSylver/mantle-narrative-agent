@@ -6,6 +6,8 @@ import { ArrowDownToLine, ArrowLeftRight, ArrowUpFromLine, ExternalLink, Layers,
 import { Panel } from "./panel";
 import { TimeAgo } from "./time-ago";
 
+const EXPLORER = "https://sepolia.mantlescan.xyz";
+
 const TYPE_META: Record<
   string,
   { icon: typeof Waves; color: string; badge: string }
@@ -38,28 +40,37 @@ export function WhaleTracker() {
         {moves.map((w) => {
           const t = TYPE_META[w.type];
           const Icon = t.icon;
+          const href = w.txHash ? `${EXPLORER}/tx/${w.txHash}` : `${EXPLORER}/address/${w.wallet}`;
           return (
-            <li key={w.id} className="row-hover grid grid-cols-12 items-center gap-2 px-4 py-2.5">
-              <div className="col-span-1">
-                <Icon size={14} className={t.color} />
-              </div>
-              <div className="col-span-4 min-w-0">
-                <div className="mono text-[11px] truncate">{shortAddr(w.wallet)}</div>
-                <div className="text-[10px] text-[color:var(--color-text-tertiary)] truncate">
-                  {w.walletLabel ?? "—"}
+            <li key={w.id}>
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="row-hover grid grid-cols-12 items-center gap-2 px-4 py-2.5 cursor-pointer"
+                title={w.txHash ? `View tx on Mantlescan` : `View wallet on Mantlescan`}
+              >
+                <div className="col-span-1">
+                  <Icon size={14} className={t.color} />
                 </div>
-              </div>
-              <div className="col-span-3 flex items-center gap-1.5">
-                <span className={`badge ${t.badge}`}>{w.type.replace("_", " ")}</span>
-                <span className="mono text-[11px]">{w.asset}</span>
-              </div>
-              <div className="col-span-2 mono tabular text-right text-[12px] font-semibold">
-                {formatUsd(w.amountUsd, { compact: true })}
-              </div>
-              <div className="col-span-2 flex items-center justify-end gap-1.5 text-[10px] text-[color:var(--color-text-tertiary)]">
-                <span><TimeAgo iso={w.at} /></span>
-                <ExternalLink size={9} />
-              </div>
+                <div className="col-span-4 min-w-0">
+                  <div className="mono text-[11px] truncate">{shortAddr(w.wallet)}</div>
+                  <div className="text-[10px] text-[color:var(--color-text-tertiary)] truncate">
+                    {w.walletLabel ?? "—"}
+                  </div>
+                </div>
+                <div className="col-span-3 flex items-center gap-1.5">
+                  <span className={`badge ${t.badge}`}>{w.type.replace("_", " ")}</span>
+                  <span className="mono text-[11px]">{w.asset}</span>
+                </div>
+                <div className="col-span-2 mono tabular text-right text-[12px] font-semibold">
+                  {formatUsd(w.amountUsd, { compact: true })}
+                </div>
+                <div className="col-span-2 flex items-center justify-end gap-1.5 text-[10px] text-[color:var(--color-text-tertiary)]">
+                  <span><TimeAgo iso={w.at} /></span>
+                  <ExternalLink size={9} />
+                </div>
+              </a>
             </li>
           );
         })}

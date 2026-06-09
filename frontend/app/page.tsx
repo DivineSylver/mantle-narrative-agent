@@ -7,25 +7,25 @@ import { WhaleTracker } from "@/components/whale-tracker";
 
 export default function Dashboard() {
   return (
-    <main className="grid flex-1 grid-cols-1 gap-px bg-[color:var(--color-border)] xl:grid-cols-12">
-      <div className="xl:col-span-8 bg-[color:var(--color-bg)]">
+    <main className="grid flex-1 grid-cols-1 gap-px bg-[color:var(--color-border)] lg:grid-cols-12">
+      <div className="bg-[color:var(--color-bg)] lg:col-span-7 xl:col-span-8">
         <NarrativeFeed />
       </div>
-      <div className="xl:col-span-4 bg-[color:var(--color-bg)]">
+      <div className="bg-[color:var(--color-bg)] lg:col-span-5 xl:col-span-4">
         <SmartMoneyFeed />
       </div>
 
-      <div className="xl:col-span-7 bg-[color:var(--color-bg)]">
+      <div className="bg-[color:var(--color-bg)] lg:col-span-7">
         <WhaleTracker />
       </div>
-      <div className="xl:col-span-5 bg-[color:var(--color-bg)]">
+      <div className="bg-[color:var(--color-bg)] lg:col-span-5">
         <EcosystemHeatmap />
       </div>
 
-      <div className="xl:col-span-7 bg-[color:var(--color-bg)]">
+      <div className="bg-[color:var(--color-bg)] lg:col-span-7">
         <PredictionHistory />
       </div>
-      <div className="xl:col-span-5 bg-[color:var(--color-bg)]">
+      <div className="bg-[color:var(--color-bg)] lg:col-span-5">
         <ProtocolLeaderboard />
       </div>
     </main>

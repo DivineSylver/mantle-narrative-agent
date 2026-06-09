@@ -6,6 +6,8 @@ import { Crown, ShieldCheck, Zap } from "lucide-react";
 import { Panel } from "./panel";
 import { TimeAgo } from "./time-ago";
 
+const EXPLORER = "https://sepolia.mantlescan.xyz";
+
 const CLASS_STYLE: Record<string, { badge: string; Icon: typeof Crown }> = {
   Elite: { badge: "badge-gain", Icon: Crown },
   Pro: { badge: "badge-info", Icon: ShieldCheck },
@@ -32,7 +34,14 @@ export function SmartMoneyFeed() {
           const cls = CLASS_STYLE[w.classification];
           const Icon = cls.Icon;
           return (
-            <li key={w.address} className="row-hover px-4 py-2.5">
+            <li key={w.address}>
+              <a
+                href={`${EXPLORER}/address/${w.address}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="row-hover block px-4 py-2.5 cursor-pointer"
+                title="View wallet on Mantlescan"
+              >
               <div className="grid grid-cols-12 items-center gap-2">
                 <div className="col-span-5 flex items-center gap-2 min-w-0">
                   <div className="grid h-7 w-7 shrink-0 place-items-center border border-[color:var(--color-border)]">
@@ -82,6 +91,7 @@ export function SmartMoneyFeed() {
                 </span>
                 <span>{w.lastAction ? <TimeAgo iso={w.lastAction.at} /> : "—"}</span>
               </div>
+              </a>
             </li>
           );
         })}
