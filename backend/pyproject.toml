@@ -1,0 +1,40 @@
+[project]
+name = "mantle-narrative-backend"
+version = "0.1.0"
+description = "FastAPI backend for the Mantle Narrative Agent"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi==0.115.5",
+    "uvicorn[standard]==0.32.1",
+    "pydantic==2.10.3",
+    "pydantic-settings==2.6.1",
+    "httpx==0.28.1",
+    "web3==7.6.0",
+    "eth-account==0.13.4",
+    "sqlalchemy==2.0.36",
+    "aiosqlite==0.20.0",
+    "asyncpg==0.30.0",
+    "alembic==1.14.0",
+    "redis==5.2.0",
+    "openai==1.57.0",
+    "python-telegram-bot==21.9",
+    "apscheduler==3.10.4",
+    "tenacity==9.0.0",
+    "structlog==24.4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.3.4",
+    "pytest-asyncio==0.25.0",
+    "ruff==0.8.4",
+    "mypy==1.13.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+exclude = ["contracts*", "tests*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"

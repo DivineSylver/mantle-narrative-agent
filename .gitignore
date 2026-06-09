@@ -1,0 +1,53 @@
+# Node
+node_modules/
+.next/
+out/
+build/
+dist/
+.turbo/
+
+# Claude Code local state
+.claude/
+.aider*
+.cursor/
+
+# SQLite local dev DBs
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Frontend type-gen
+frontend/next-env.d.ts
+frontend/tsconfig.tsbuildinfo
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Hardhat
+contracts/cache/
+contracts/artifacts/
+contracts/typechain-types/
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+**/deployments/*.json
+!**/deployments/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*

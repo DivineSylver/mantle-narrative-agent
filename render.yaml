@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: mantle-narrative-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/v1/health
+    autoDeploy: true
+    disk:
+      name: sqlite-data
+      mountPath: /opt/render/project/src/backend/data
+      sizeGB: 1
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:////opt/render/project/src/backend/data/mantle_intel.db
+      - key: MANTLE_NETWORK
+        value: sepolia
+      - key: MANTLE_RPC_URL
+        value: https://rpc.sepolia.mantle.xyz
+      - key: MANTLE_CHAIN_ID
+        value: "5003"
+      - key: PREDICTION_CONTRACT_ADDRESS
+        value: "0xfA6a1B789Ea499eBCCefb08aacB8637a0CB3a677"
+      - key: SIGNER_PRIVATE_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.11.10"
