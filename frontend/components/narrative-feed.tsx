@@ -3,6 +3,7 @@
 import { useNarratives } from "@/lib/hooks";
 import type { Narrative } from "@/lib/mock-data";
 import { ArrowUpRight, Sparkles, TrendingDown, TrendingUp } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Panel } from "./panel";
 import { TimeAgo } from "./time-ago";
@@ -200,10 +201,10 @@ function DetailPane({ narrative: n }: { narrative: Narrative }) {
             {n.confidence}%
           </span>
         </div>
-        <button className="btn-primary">
+        <Link href={`/predictions#${n.id}`} className="btn-primary">
           View prediction
           <ArrowUpRight size={11} />
-        </button>
+        </Link>
       </div>
     </>
   );
