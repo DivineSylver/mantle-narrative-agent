@@ -19,22 +19,34 @@ const CAT_BADGE: Record<string, string> = {
 
 export function NarrativeFeed() {
   const { data: narratives } = useNarratives();
+  const [windowHours, setWindowHours] = useState<24 | 168>(24);
   const [selectedId, setSelectedId] = useState<string>("");
+
+  const filtered = useMemo(() => {
+    const cutoff = Date.now() - windowHours * 60 * 60 * 1000;
+    return narratives.filter((n) => {
+      const t = Date.parse(n.detectedAt);
+      return Number.isFinite(t) ? t >= cutoff : true;
+    });
+  }, [narratives, windowHours]);
+
   const selected = useMemo(
-    () => narratives.find((n) => n.id === selectedId) ?? narratives[0] ?? null,
-    [narratives, selectedId],
+    () => filtered.find((n) => n.id === selectedId) ?? filtered[0] ?? null,
+    [filtered, selectedId],
   );
 
   useEffect(() => {
-    if (narratives.length === 0) return;
+    if (filtered.length === 0) return;
     // honor #NR-XXX hash deep-link from search
     const hash = typeof window !== "undefined" ? window.location.hash.slice(1) : "";
-    if (hash && narratives.some((n) => n.id === hash)) {
+    if (hash && filtered.some((n) => n.id === hash)) {
       setSelectedId(hash);
       return;
     }
-    if (!selectedId) setSelectedId(narratives[0].id);
-  }, [narratives, selectedId]);
+    if (!selectedId || !filtered.some((n) => n.id === selectedId)) {
+      setSelectedId(filtered[0].id);
+    }
+  }, [filtered, selectedId]);
 
   return (
     <Panel
@@ -47,8 +59,28 @@ export function NarrativeFeed() {
       }
       action={
         <>
-          <button className="btn-ghost">7D</button>
-          <button className="btn-ghost border-[color:var(--color-primary)] text-[color:var(--color-primary)]">
+          <button
+            type="button"
+            onClick={() => setWindowHours(168)}
+            className={`btn-ghost ${
+              windowHours === 168
+                ? "border-[color:var(--color-primary)] text-[color:var(--color-primary)]"
+                : ""
+            }`}
+            aria-pressed={windowHours === 168}
+          >
+            7D
+          </button>
+          <button
+            type="button"
+            onClick={() => setWindowHours(24)}
+            className={`btn-ghost ${
+              windowHours === 24
+                ? "border-[color:var(--color-primary)] text-[color:var(--color-primary)]"
+                : ""
+            }`}
+            aria-pressed={windowHours === 24}
+          >
             24H
           </button>
         </>
@@ -58,7 +90,12 @@ export function NarrativeFeed() {
       <div className="grid h-full grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         {/* Feed list */}
         <ul className="divide-y divide-[color:var(--color-border)] overflow-y-auto">
-          {narratives.map((n) => {
+          {filtered.length === 0 ? (
+            <li className="flex h-full items-center justify-center p-8">
+              <span className="label-meta">No narratives in this window</span>
+            </li>
+          ) : null}
+          {filtered.map((n) => {
             const active = n.id === selectedId;
             const Icon =
               n.impact === "Bullish" ? TrendingUp : n.impact === "Bearish" ? TrendingDown : TrendingUp;

@@ -3,10 +3,12 @@
 import { useSmartMoney } from "@/lib/hooks";
 import { formatUsd, shortAddr } from "@/lib/utils";
 import { Crown, ShieldCheck, Zap } from "lucide-react";
+import { useState } from "react";
 import { Panel } from "./panel";
 import { TimeAgo } from "./time-ago";
 
 const EXPLORER = "https://sepolia.mantlescan.xyz";
+const COLLAPSED_COUNT = 6;
 
 const CLASS_STYLE: Record<string, { badge: string; Icon: typeof Crown }> = {
   Elite: { badge: "badge-gain", Icon: Crown },
@@ -16,11 +18,25 @@ const CLASS_STYLE: Record<string, { badge: string; Icon: typeof Crown }> = {
 
 export function SmartMoneyFeed() {
   const { data: wallets } = useSmartMoney();
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? wallets : wallets.slice(0, COLLAPSED_COUNT);
+  const canExpand = wallets.length > COLLAPSED_COUNT;
   return (
     <Panel
       title="Smart Money"
       meta={<span className="label-meta">Top performing wallets · 90d</span>}
-      action={<button className="btn-ghost">VIEW ALL</button>}
+      action={
+        canExpand ? (
+          <button
+            type="button"
+            onClick={() => setExpanded((e) => !e)}
+            className="btn-ghost"
+            aria-expanded={expanded}
+          >
+            {expanded ? `SHOW TOP ${COLLAPSED_COUNT}` : `VIEW ALL (${wallets.length})`}
+          </button>
+        ) : null
+      }
       noPadding
     >
       <div className="grid grid-cols-12 border-b border-[color:var(--color-border)] bg-[color:var(--color-surface-2)] px-4 py-2 text-[10px] uppercase tracking-wider text-[color:var(--color-text-tertiary)]">
@@ -30,7 +46,7 @@ export function SmartMoneyFeed() {
         <div className="col-span-3 text-right">Realized P&L</div>
       </div>
       <ul className="divide-y divide-[color:var(--color-border)]">
-        {wallets.map((w) => {
+        {visible.map((w) => {
           const cls = CLASS_STYLE[w.classification];
           const Icon = cls.Icon;
           return (
