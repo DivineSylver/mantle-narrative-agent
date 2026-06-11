@@ -1,4 +1,4 @@
-"""SQLAlchemy ORM models — wallet history, AI signals, predictions, protocol metrics."""
+"""SQLAlchemy ORM models: wallet history, AI signals, predictions, protocol metrics."""
 
 from __future__ import annotations
 

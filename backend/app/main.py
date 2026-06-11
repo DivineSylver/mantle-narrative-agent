@@ -1,4 +1,4 @@
-"""FastAPI app — read-only REST endpoints powering the dashboard."""
+"""FastAPI app: read-only REST endpoints powering the dashboard."""
 
 from __future__ import annotations
 

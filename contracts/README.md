@@ -1,10 +1,10 @@
-# PredictionStore — Mantle on-chain prediction ledger
+# PredictionStore: Mantle on-chain prediction ledger
 
 Solidity 0.8.24, Hardhat 2.22, deployed to Mantle Sepolia (testnet) and Mantle mainnet.
 
 ## What it does
 
-Records the off-chain AI agent's predictions immutably on Mantle, then resolves each one with the realized move in basis points. This is the hackathon's *On-Chain Verification* layer — verifiable proof that the agent's claims hold up.
+Records the off-chain AI agent's predictions immutably on Mantle, then resolves each one with the realized move in basis points. This is the hackathon's *On-Chain Verification* layer: verifiable proof that the agent's claims hold up.
 
 ## Setup
 

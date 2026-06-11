@@ -2,7 +2,7 @@
 
 > Autonomous AI analyst for the Mantle ecosystem. Detects emerging narratives, tracks smart-money, generates verifiable alpha signals, and writes its predictions on-chain for transparent performance validation.
 
-**Track:** Alpha & Data — Human-Driven Data & Analytics (+ AI-Driven Trading Strategy)
+**Track:** Alpha & Data: Human-Driven Data & Analytics (+ AI-Driven Trading Strategy)
 
 ## Live demo
 
@@ -29,7 +29,7 @@ Try it: open the frontend, go to **Predictions** → click **Generate AI Signal*
 ├──────────────────────────────────────────────────────────────────────────────┤
 │  Frontend  Next.js 16 + Tailwind v4 + Bloomberg-style trading-terminal UI    │
 │  Backend   FastAPI + SQLAlchemy async + Postgres + Redis + APScheduler       │
-│  Bot       python-telegram-bot — /topnarratives /topwhales /smartmoney ...   │
+│  Bot       python-telegram-bot · /topnarratives /topwhales /smartmoney ...   │
 │  Contract  Solidity 0.8.24 + Hardhat, verified on Mantlescan                 │
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -38,14 +38,14 @@ Try it: open the frontend, go to **Predictions** → click **Generate AI Signal*
 
 ```
 NFT/
-├── frontend/      Next.js dashboard — narratives, smart-money, whales, predictions, heatmap, protocols
+├── frontend/      Next.js dashboard: narratives, smart-money, whales, predictions, heatmap, protocols
 ├── backend/       FastAPI app, Mantle indexer, AI engines, Telegram bot, scheduler
 ├── contracts/     PredictionStore.sol + Hardhat suite (Mantle Sepolia + mainnet)
 ├── docker-compose.yml   Postgres + Redis for local dev
 └── README.md
 ```
 
-## Quickstart — local dev
+## Quickstart (local dev)
 
 ### 0. Prereqs
 
@@ -80,7 +80,7 @@ pip install -e .[dev]
 cp .env.example .env              # fill PREDICTION_CONTRACT_ADDRESS, SIGNER_PRIVATE_KEY,
                                   # OPENAI_API_KEY, TELEGRAM_BOT_TOKEN
 uvicorn app.main:app --reload --port 8000
-python -m app.scheduler           # in another shell — indexer + narrative loop + bot
+python -m app.scheduler           # in another shell: indexer + narrative loop + bot
 ```
 
 ### 4. Frontend
@@ -104,7 +104,7 @@ npm run dev                       # http://localhost:3000
 
 ## Smart contract
 
-`PredictionStore.sol` — Mantle Sepolia (chainId 5003).
+`PredictionStore.sol` on Mantle Sepolia (chainId 5003).
 
 | Function                  | Description                                       |
 |---------------------------|---------------------------------------------------|
@@ -121,7 +121,7 @@ Deployed addresses: see `contracts/deployments/`.
 1. **Indexer** scans ERC20 transfers for tracked assets (MNT, mETH, fBTC, USDY, USDC); flags $≥250k moves as `WhaleMove`.
 2. **Smart-money scorer** computes FIFO realized PnL → win rate, avg ROI, composite score (0-100) → `Elite/Pro/Active` classification.
 3. **Narrative engine** aggregates the last 24h into a feature vector per asset, hands it to GPT-4o with a strict JSON schema, returns `{title, category, impact, confidence, evidence, predicted_asset, horizon_days}`.
-4. **Prediction** is persisted off-chain and immediately committed to `PredictionStore` on Mantle — the resulting tx hash is the verifiable proof.
+4. **Prediction** is persisted off-chain and immediately committed to `PredictionStore` on Mantle. The resulting tx hash is the verifiable proof.
 5. **Resolver** (scheduled) reads the realized price move at each horizon (`7d/30d/90d`) and calls `resolvePrediction(id, realizedBps)`. Status (Won/Lost) derives on-chain.
 
 ## Mantle ecosystem coverage
@@ -132,9 +132,9 @@ Deployed addresses: see `contracts/deployments/`.
 
 ## Submission checklist
 
-- [x] Mantle Network deployment — Sepolia, [`0xfA6a1B789Ea499eBCCefb08aacB8637a0CB3a677`](https://sepolia.mantlescan.xyz/address/0xfA6a1B789Ea499eBCCefb08aacB8637a0CB3a677)
-- [x] Open-source GitHub repo — https://github.com/DivineSylver/mantle-narrative-agent
-- [x] Public frontend URL — https://mantle-narrative-agent-tuu6.vercel.app
+- [x] Mantle Network deployment: Sepolia, [`0xfA6a1B789Ea499eBCCefb08aacB8637a0CB3a677`](https://sepolia.mantlescan.xyz/address/0xfA6a1B789Ea499eBCCefb08aacB8637a0CB3a677)
+- [x] Open-source GitHub repo: https://github.com/DivineSylver/mantle-narrative-agent
+- [x] Public frontend URL: https://mantle-narrative-agent-tuu6.vercel.app
 - [ ] Demo video (2+ min)
 - [x] Verified smart contract (Mantlescan, Exact Match via Sourcify)
 - [x] AI function callable on-chain (`recordPrediction` from backend signer)

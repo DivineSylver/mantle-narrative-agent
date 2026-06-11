@@ -1,11 +1,11 @@
-"""Scheduler — wires the agent's recurring jobs.
+"""Scheduler: wires the agent's recurring jobs.
 
 Run with:  python -m app.scheduler
 
 Jobs:
   - indexer.run_loop()           continuous (its own loop)
   - rebuild_scores()             every 15 min
-  - detect_and_persist()         every 30 min — generates new narrative+prediction
+  - detect_and_persist()         every 30 min, generates new narrative+prediction
   - write_on_chain(latest)       fires when a new prediction lands
   - generate_daily_report()      08:00 UTC daily, broadcast to Telegram admin chat
 """

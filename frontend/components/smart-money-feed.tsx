@@ -78,7 +78,7 @@ export function SmartMoneyFeed() {
                       <span className={`badge ${cls.badge}`}>{w.classification}</span>
                     </div>
                     <div className="truncate text-[10px] text-[color:var(--color-text-tertiary)]">
-                      {w.label ?? "—"}
+                      {w.label ?? "-"}
                     </div>
                   </div>
                 </div>
@@ -105,7 +105,7 @@ export function SmartMoneyFeed() {
                   <span className="mono text-[color:var(--color-text)]">{w.lastAction.asset}</span>{" "}
                   <span className="mono">{formatUsd(w.lastAction.amountUsd, { compact: true })}</span>
                 </span>
-                <span>{w.lastAction ? <TimeAgo iso={w.lastAction.at} /> : "—"}</span>
+                <span>{w.lastAction ? <TimeAgo iso={w.lastAction.at} /> : "-"}</span>
               </div>
               </a>
             </li>

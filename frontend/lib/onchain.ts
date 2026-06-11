@@ -1,6 +1,6 @@
 "use client";
 
-// On-chain hooks — read PredictionStore.sol directly from the connected chain.
+// On-chain hooks: read PredictionStore.sol directly from the connected chain.
 // Returns the live ledger, total count, and a per-prediction helper.
 
 import { useReadContract } from "wagmi";

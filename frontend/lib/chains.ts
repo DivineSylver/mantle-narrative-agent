@@ -27,7 +27,7 @@ export const mantle: Chain = {
   },
 };
 
-// Deployed contracts — addresses are populated by `npm run deploy:sepolia`
+// Deployed contracts: addresses are populated by `npm run deploy:sepolia`
 // (see contracts/deployments/mantleSepolia.json).
 export const PREDICTION_STORE_ADDRESS: Record<number, `0x${string}`> = {
   5003: "0xfA6a1B789Ea499eBCCefb08aacB8637a0CB3a677",

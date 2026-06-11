@@ -1,4 +1,4 @@
-// API client — typed fetch wrappers for the Mantle Narrative Agent backend.
+// API client: typed fetch wrappers for the Mantle Narrative Agent backend.
 // All endpoints are proxied via Next.js rewrites (see next.config.ts).
 
 import type {

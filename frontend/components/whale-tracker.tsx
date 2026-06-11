@@ -155,7 +155,7 @@ export function WhaleTracker() {
                 <div className="col-span-4 min-w-0">
                   <div className="mono text-[11px] truncate">{shortAddr(w.wallet)}</div>
                   <div className="text-[10px] text-[color:var(--color-text-tertiary)] truncate">
-                    {w.walletLabel ?? "—"}
+                    {w.walletLabel ?? "-"}
                   </div>
                 </div>
                 <div className="col-span-3 flex items-center gap-1.5">

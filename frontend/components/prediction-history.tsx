@@ -58,12 +58,12 @@ export function PredictionHistory() {
         <Stat label="Total on-chain" value={total.toString()} />
         <Stat
           label="Win rate"
-          value={settled > 0 ? `${winRatePct.toFixed(1)}%` : "—"}
+          value={settled > 0 ? `${winRatePct.toFixed(1)}%` : "-"}
           accent={settled > 0 ? "text-[color:var(--color-gain)]" : ""}
         />
         <Stat
           label="Avg realized"
-          value={realizedValues.length > 0 ? formatPct(avgRealizedPct) : "—"}
+          value={realizedValues.length > 0 ? formatPct(avgRealizedPct) : "-"}
           accent={
             realizedValues.length > 0 && avgRealizedPct >= 0
               ? "text-[color:var(--color-gain)]"

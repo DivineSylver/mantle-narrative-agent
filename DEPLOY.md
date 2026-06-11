@@ -12,14 +12,14 @@ Result:
 ## Prerequisites (one-time)
 
 - A **GitHub** account
-- A **Vercel** account — sign in with GitHub at https://vercel.com
-- A **Render** account — sign in with GitHub at https://render.com
+- A **Vercel** account: sign in with GitHub at https://vercel.com
+- A **Render** account: sign in with GitHub at https://render.com
 
 Nothing to install locally if you push code via GitHub's web UI.
 
 ---
 
-## Step 1 — push the code to GitHub
+## Step 1: push the code to GitHub
 
 From the project root (`NFT/`):
 
@@ -28,17 +28,17 @@ git init
 git add .
 git commit -m "Initial Mantle Narrative Agent submission"
 
-# create the repo on github.com (public is fine — no secrets are committed)
+# create the repo on github.com (public is fine; no secrets are committed)
 git remote add origin https://github.com/<YOUR_USERNAME>/mantle-narrative-agent.git
 git branch -M main
 git push -u origin main
 ```
 
-`.env` files and `node_modules/` are already in `.gitignore` — your deployer private key will NOT be pushed.
+`.env` files and `node_modules/` are already in `.gitignore`, so your deployer private key will NOT be pushed.
 
 ---
 
-## Step 2 — deploy the backend on Render
+## Step 2: deploy the backend on Render
 
 1. Go to https://dashboard.render.com → **New +** → **Blueprint**
 2. Pick your `mantle-narrative-agent` repo
@@ -50,13 +50,13 @@ git push -u origin main
 5. Click **Apply**
 6. Wait ~3 minutes for the first build
 7. Note the URL (looks like `https://mantle-narrative-api.onrender.com`)
-8. Verify: open `https://<your-backend>.onrender.com/api/v1/health` — should return `{"ok":true,"network":"sepolia"}`
+8. Verify: open `https://<your-backend>.onrender.com/api/v1/health`. Should return `{"ok":true,"network":"sepolia"}`
 
 **Heads up:** Render free tier sleeps after 15 min of no traffic, then takes ~30s to wake up on the first request. Fine for a demo, mildly annoying for cold judges. Upgrading to Starter ($7/mo) removes the sleep.
 
 ---
 
-## Step 3 — deploy the frontend on Vercel
+## Step 3: deploy the frontend on Vercel
 
 1. Go to https://vercel.com/new
 2. Import your `mantle-narrative-agent` repo
@@ -70,7 +70,7 @@ git push -u origin main
 
 ---
 
-## Step 4 — wire CORS
+## Step 4: wire CORS
 
 Open your Render service → **Environment** → add:
 
@@ -80,13 +80,13 @@ Render restarts automatically (~1 min). The frontend is now allowed to call the 
 
 ---
 
-## Step 5 — smoke-test the live demo
+## Step 5: smoke-test the live demo
 
 1. Open `https://<your-vercel-url>.vercel.app`
-2. Check the **Protocols** tab — should show live DeFiLlama data for Mantle protocols
-3. Check the **Predictions** tab — should show the on-chain predictions already recorded
-4. Click **Generate AI Signal** — wait ~15s — a new prediction lands on Mantle Sepolia, success banner shows the Mantlescan link
-5. Try the search bar — type `merchant` or `0x9a4f`
+2. Check the **Protocols** tab; should show live DeFiLlama data for Mantle protocols
+3. Check the **Predictions** tab; should show the on-chain predictions already recorded
+4. Click **Generate AI Signal**, wait ~15s, and a new prediction lands on Mantle Sepolia, success banner shows the Mantlescan link
+5. Try the search bar; type `merchant` or `0x9a4f`
 
 Done. Your hackathon submission URL is the Vercel one.
 
@@ -98,9 +98,9 @@ Done. Your hackathon submission URL is the Vercel one.
 |---|---|
 | Backend cold-start on Render free tier (~30s) | Upgrade to Starter ($7/mo) or use UptimeRobot to ping `/health` every 10 min |
 | `Generate AI Signal` returns 500 in prod | Check `SIGNER_PRIVATE_KEY` is set in Render env vars; faucet the deployer if it ran out of test MNT |
-| Vercel build fails on `next-env.d.ts` | Already in `.gitignore` — should not happen, but `git rm --cached frontend/next-env.d.ts` if it does |
-| Search bar empty | Hard-refresh (Ctrl+Shift+R) — Turbopack/CDN cache from the earlier broken version |
-| CORS error in browser console | Step 4 — make sure your Vercel URL is in `CORS_ORIGINS` on Render |
+| Vercel build fails on `next-env.d.ts` | Already in `.gitignore`; should not happen, but `git rm --cached frontend/next-env.d.ts` if it does |
+| Search bar empty | Hard-refresh (Ctrl+Shift+R) to clear Turbopack/CDN cache from the earlier broken version |
+| CORS error in browser console | Step 4: make sure your Vercel URL is in `CORS_ORIGINS` on Render |
 
 ---
 

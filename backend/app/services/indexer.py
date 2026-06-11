@@ -1,4 +1,4 @@
-"""Indexer — pulls Mantle transfers for tracked assets and writes WhaleMoves + WalletTrades.
+"""Indexer: pulls Mantle transfers for tracked assets and writes WhaleMoves + WalletTrades.
 
 Designed as a polling loop: each tick advances `from_block → head`, dedupes by tx hash,
 classifies the move, and persists.

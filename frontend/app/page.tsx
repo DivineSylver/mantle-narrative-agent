@@ -32,7 +32,7 @@ const FEATURES = [
   {
     icon: Sparkles,
     title: "Narrative engine",
-    body: "GPT-4o compresses 24-hour on-chain flows into structured signals: title, category, impact, and confidence — every bullet maps to a real on-chain event, not a tweet.",
+    body: "GPT-4o compresses 24-hour on-chain flows into structured signals: title, category, impact, and confidence. Every bullet maps to a real on-chain event, not a tweet.",
     tag: "AI · LIVE",
   },
   {
@@ -137,8 +137,8 @@ export default function Landing() {
           </h1>
 
           <p className="max-w-2xl text-[15px] leading-relaxed text-[color:var(--color-text-secondary)] sm:text-[16px]">
-            Bloomberg Terminal–class narratives, smart-money tracking, and AI-predicted alpha
-            for the Mantle ecosystem — every prediction written on-chain so the track record
+            Bloomberg Terminal-class narratives, smart-money tracking, and AI-predicted alpha
+            for the Mantle ecosystem. Every prediction written on-chain so the track record
             can&apos;t be edited, deleted, or marketed.
           </p>
 
@@ -259,7 +259,7 @@ export default function Landing() {
             </p>
             <ul className="mt-2 space-y-2 text-[13px] text-[color:var(--color-text-secondary)]">
               {[
-                "Append-only — predictions can be voided, never edited",
+                "Append-only: predictions can be voided, never edited",
                 "Recorder + resolver roles separated from the owner",
                 "Status (Won / Lost) derived from the sign of realized vs predicted",
                 "Source verified on Mantlescan, exact bytecode match via Sourcify",

@@ -1,4 +1,4 @@
-// React hooks — fetch real API data, gracefully degrade to mock data.
+// React hooks: fetch real API data, gracefully degrade to mock data.
 // Polls every 30s so the dashboard stays live.
 
 "use client";

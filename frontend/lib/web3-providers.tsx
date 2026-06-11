@@ -10,7 +10,7 @@ import { mantle, mantleSepolia } from "./chains";
 
 const config = getDefaultConfig({
   appName: "Mantle Narrative Agent",
-  // Public WalletConnect projectId — works for demo. Swap for your own at https://cloud.walletconnect.com
+  // Public WalletConnect projectId, works for demo. Swap for your own at https://cloud.walletconnect.com
   projectId: "c4f79cc821944d9680842e34466bfbd9",
   chains: [mantleSepolia, mantle],
   transports: {

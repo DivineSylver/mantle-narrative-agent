@@ -1,4 +1,4 @@
-"""Asset pricing — Redis-cached spot prices.
+"""Asset pricing: Redis-cached spot prices.
 
 Falls back to a hardcoded map when no upstream is configured (good for tests / offline demo).
 """

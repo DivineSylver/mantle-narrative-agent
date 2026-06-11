@@ -70,7 +70,7 @@ class MantleClient:
         topics: list[Any] = [ERC20_TRANSFER_TOPIC]
         if addresses:
             padded = [Web3.to_hex(Web3.to_bytes(hexstr=Web3.to_checksum_address(a)).rjust(32, b"\x00")) for a in addresses]
-            # Match on `to` OR `from` — broad: pass list-of-list as topic-2 (to)
+            # Match on `to` OR `from` (broad): pass list-of-list as topic-2 (to)
             topics.append(None)  # from = anyone
             topics.append(padded)  # to in addresses
 

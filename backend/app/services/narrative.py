@@ -1,4 +1,4 @@
-"""Layer 3 + 4 — Narrative Detection & Alpha Generation.
+"""Layer 3 + 4: Narrative Detection & Alpha Generation.
 
 Combines:
   1. Quant signals: aggregate the indexer's recent activity into a feature vector

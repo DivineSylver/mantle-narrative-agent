@@ -1,4 +1,4 @@
-"""Daily AI report — pulls the last 24h of intelligence and summarizes it.
+"""Daily AI report: pulls the last 24h of intelligence and summarizes it.
 
 The report is meant to be:
   - sent to the admin Telegram chat each morning,
@@ -71,10 +71,10 @@ def _fallback_report(facts: dict) -> str:
     if facts["narratives"]:
         lines.append("*Top narratives*")
         for n in facts["narratives"][:3]:
-            lines.append(f"• {n['title']} — `{n['category']}` · {int(n['confidence'])}%")
+            lines.append(f"• {n['title']} · `{n['category']}` · {int(n['confidence'])}%")
         lines.append("")
     w = facts["whales"]
-    lines.append(f"*Whale activity* — {w['count']} moves totaling ${int(w['total_usd']):,}")
+    lines.append(f"*Whale activity* · {w['count']} moves totaling ${int(w['total_usd']):,}")
     lines.append("")
     if facts["predictions"]:
         lines.append(f"*{len(facts['predictions'])} new predictions* committed on-chain")

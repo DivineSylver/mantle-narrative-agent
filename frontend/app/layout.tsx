@@ -16,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mantle Narrative Agent — On-chain Intelligence Terminal",
+  title: "Mantle Narrative Agent · On-chain Intelligence Terminal",
   description:
     "Autonomous AI analyst for the Mantle ecosystem. Narrative detection, smart-money tracking, and on-chain verified predictions.",
 };

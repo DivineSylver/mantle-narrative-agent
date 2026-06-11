@@ -1,4 +1,4 @@
-// Mock dataset — Mantle ecosystem. Wired to be swapped for live RPC/indexer data later.
+// Mock dataset for the Mantle ecosystem. Wired to be swapped for live RPC/indexer data later.
 
 export type TickerItem = {
   symbol: string;
@@ -137,7 +137,7 @@ export const NARRATIVES: Narrative[] = [
     evidence: [
       "USDY supply +12% WoW",
       "5 DAOs added USDY to treasury",
-      "Avg position size $284k — institutional cohort",
+      "Avg position size $284k, institutional cohort",
     ],
     assets: ["USDY"],
     protocols: ["Ondo", "Agni"],
@@ -437,7 +437,7 @@ export const PROTOCOLS: Protocol[] = [
   { name: "Pendle Mantle", category: "Yield", tvlUsd: 64_200_000, tvlChange24h: 4.2, volume24h: 3_600_000, users24h: 1_140, fees24h: 12_800 },
 ];
 
-// Ecosystem heatmap — categories × assets, value = momentum score (-1..1)
+// Ecosystem heatmap: categories × assets, value = momentum score (-1..1)
 export type HeatCell = {
   category: string;
   asset: string;

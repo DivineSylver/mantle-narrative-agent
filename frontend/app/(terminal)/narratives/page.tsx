@@ -9,7 +9,7 @@ export default function NarrativesPage() {
         </h1>
         <p className="mt-1 text-[12px] text-[color:var(--color-text-secondary)]">
           AI-detected narratives on the Mantle ecosystem. Each narrative is derived from on-chain
-          flows, smart-money behavior, and protocol metrics — then fed through GPT-4o for synthesis.
+          flows, smart-money behavior, and protocol metrics, then fed through GPT-4o for synthesis.
         </p>
       </div>
       <NarrativeFeed />

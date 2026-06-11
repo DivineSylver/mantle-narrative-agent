@@ -1,4 +1,4 @@
-"""Telegram bot — exposes the agent's intelligence via slash commands.
+"""Telegram bot: exposes the agent's intelligence via slash commands.
 
 Commands:
   /start            welcome + command list
@@ -34,7 +34,7 @@ log = structlog.get_logger()
 
 
 def _short(addr: str) -> str:
-    return f"{addr[:6]}…{addr[-4:]}" if addr else "—"
+    return f"{addr[:6]}…{addr[-4:]}" if addr else "-"
 
 
 def _ts(dt: datetime) -> str:
@@ -55,12 +55,12 @@ async def cmd_start(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
     msg = (
         "*Mantle Narrative Agent*\n\n"
         "Commands:\n"
-        "/topnarratives — emerging narratives\n"
-        "/topwhales — whale flows (4h)\n"
-        "/topprotocols — protocols by TVL\n"
-        "/smartmoney — top wallets\n"
-        "/predictions — on-chain predictions\n"
-        "/alerts — subscribe to push alerts\n"
+        "/topnarratives - emerging narratives\n"
+        "/topwhales - whale flows (4h)\n"
+        "/topprotocols - protocols by TVL\n"
+        "/smartmoney - top wallets\n"
+        "/predictions - on-chain predictions\n"
+        "/alerts - subscribe to push alerts\n"
     )
     await update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
@@ -102,7 +102,7 @@ async def cmd_topwhales(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
     lines = ["*Whale moves · 4h*"]
     for w in rows:
         lines.append(
-            f"• `{w.move_type}` *{w.asset}* ${int(w.amount_usd):,} — `{_short(w.wallet)}` · {_ts(w.occurred_at)} ago"
+            f"• `{w.move_type}` *{w.asset}* ${int(w.amount_usd):,} · `{_short(w.wallet)}` · {_ts(w.occurred_at)} ago"
         )
     await update.message.reply_text("\n".join(lines), parse_mode=ParseMode.MARKDOWN)
 
@@ -121,7 +121,7 @@ async def cmd_topprotocols(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None
     lines = ["*Top protocols by TVL*"]
     for i, p in enumerate(rows, start=1):
         lines.append(
-            f"{i:>2}. *{p.name}* `{p.category}` — TVL ${int(p.tvl_usd):,} · vol ${int(p.volume_24h_usd):,}"
+            f"{i:>2}. *{p.name}* `{p.category}` · TVL ${int(p.tvl_usd):,} · vol ${int(p.volume_24h_usd):,}"
         )
     await update.message.reply_text("\n".join(lines), parse_mode=ParseMode.MARKDOWN)
 
@@ -139,7 +139,7 @@ async def cmd_smartmoney(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
     lines = ["*Top smart-money wallets*"]
     for w in rows:
         lines.append(
-            f"• `{_short(w.address)}` *{w.classification}* — win {w.win_rate:.0f}% · ROI {w.avg_roi:+.0f}% · PnL ${int(w.realized_pnl_usd):,}"
+            f"• `{_short(w.address)}` *{w.classification}* · win {w.win_rate:.0f}% · ROI {w.avg_roi:+.0f}% · PnL ${int(w.realized_pnl_usd):,}"
         )
     await update.message.reply_text("\n".join(lines), parse_mode=ParseMode.MARKDOWN)
 
@@ -166,7 +166,7 @@ async def cmd_predictions(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def cmd_alerts(update: Update, ctx: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_chat.id
-    # bot_data is shared application state — fine for a demo
+    # bot_data is shared application state, fine for a demo
     subs: set[int] = ctx.application.bot_data.setdefault("subs", set())
     args = (ctx.args or [None])[0]
     if args == "off":
@@ -174,7 +174,7 @@ async def cmd_alerts(update: Update, ctx: ContextTypes.DEFAULT_TYPE) -> None:
         await update.message.reply_text("Unsubscribed.")
     else:
         subs.add(chat_id)
-        await update.message.reply_text("Subscribed — you'll receive new narrative alerts.")
+        await update.message.reply_text("Subscribed. You'll receive new narrative alerts.")
 
 
 # ---------- runner ----------

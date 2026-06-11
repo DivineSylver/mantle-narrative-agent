@@ -13,7 +13,7 @@ export default function PredictionsPage() {
             Every AI prediction is committed to{" "}
             <span className="mono text-[color:var(--color-primary)]">PredictionStore.sol</span> on
             Mantle Sepolia before publishing. Outcomes are derived on-chain from realized price
-            moves — no off-chain trust required.
+            moves. No off-chain trust required.
           </p>
         </div>
         <GenerateSignalButton />

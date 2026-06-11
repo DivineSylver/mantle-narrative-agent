@@ -1,4 +1,4 @@
-"""DeFiLlama integration — pulls live Mantle ecosystem data.
+"""DeFiLlama integration: pulls live Mantle ecosystem data.
 
 Public API, no auth required. Used to surface real numbers on the dashboard
 without needing the local indexer to have populated the DB.

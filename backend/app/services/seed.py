@@ -1,4 +1,4 @@
-"""Demo seed data — populates the DB with realistic-looking Mantle ecosystem entries
+"""Demo seed data: populates the DB with realistic-looking Mantle ecosystem entries
 so the dashboard has narratives, wallets, and whale flows to display even before
 the full indexer + GPT-4o pipeline is wired against the live RPC.
 
@@ -78,7 +78,7 @@ NARRATIVES = [
         "evidence": [
             "USDY supply +12% WoW",
             "5 DAOs added USDY to treasury",
-            "Avg position size $284k — institutional cohort",
+            "Avg position size $284k, institutional cohort",
         ],
         "assets": ["USDY"],
         "protocols": ["Ondo Yield Assets"],

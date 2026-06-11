@@ -1,4 +1,4 @@
-"""Layer 2 — Smart Money Engine.
+"""Layer 2: Smart Money Engine.
 
 Scores wallets by their historical trade performance over a rolling window:
 - Win rate (% closed positions with positive PnL)

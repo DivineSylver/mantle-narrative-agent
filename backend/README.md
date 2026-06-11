@@ -1,4 +1,4 @@
-# Mantle Narrative Agent — Backend
+# Mantle Narrative Agent: Backend
 
 FastAPI + PostgreSQL + Redis + web3.py + OpenAI.
 
@@ -13,11 +13,11 @@ backend/
 │   │   │                           # WhaleMove, ProtocolMetric, Narrative, Prediction
 │   │   └── session.py              # Async engine + session_scope()
 │   ├── services/
-│   │   ├── indexer.py              # Layer 1 — ERC20 transfer + whale flow indexer
+│   │   ├── indexer.py              # Layer 1: ERC20 transfer + whale flow indexer
 │   │   ├── pricing.py              # Redis-cached spot pricing (CoinGecko + offline fallback)
-│   │   ├── smart_money.py          # Layer 2 — FIFO ROI, win-rate, composite score
-│   │   ├── narrative.py            # Layer 3 + 4 — feature vector → LLM → narrative + prediction
-│   │   └── onchain_predictions.py  # Layer 5 — write/resolve predictions on Mantle
+│   │   ├── smart_money.py          # Layer 2: FIFO ROI, win-rate, composite score
+│   │   ├── narrative.py            # Layer 3 + 4: feature vector → LLM → narrative + prediction
+│   │   └── onchain_predictions.py  # Layer 5: write/resolve predictions on Mantle
 │   ├── config.py                   # Pydantic settings (.env)
 │   └── main.py                     # FastAPI app + REST endpoints
 ├── contracts/                      # See ../contracts/ for the Solidity source
@@ -52,9 +52,9 @@ All under `/api/v1`:
 
 ## Background jobs
 
-- `app.services.indexer.run_loop()` — continuous ERC20 transfer scan, writes WhaleMoves
-- `app.services.smart_money.rebuild_scores()` — refresh wallet scoring
-- `app.services.narrative.detect_and_persist()` — generate one narrative + prediction
-- `app.services.onchain_predictions.write_on_chain(p)` — commit a prediction to Mantle
+- `app.services.indexer.run_loop()`: continuous ERC20 transfer scan, writes WhaleMoves
+- `app.services.smart_money.rebuild_scores()`: refresh wallet scoring
+- `app.services.narrative.detect_and_persist()`: generate one narrative + prediction
+- `app.services.onchain_predictions.write_on_chain(p)`: commit a prediction to Mantle
 
 Wire these into an `apscheduler` cron for production; for the demo a single CLI runner is fine.

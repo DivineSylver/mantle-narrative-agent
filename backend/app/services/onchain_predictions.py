@@ -1,4 +1,4 @@
-"""Layer 5 — on-chain prediction store.
+"""Layer 5: on-chain prediction store.
 
 Writes the AI's predictions to the Mantle smart contract and tracks the tx hash + on-chain id
 back into the local DB. Reads outcomes from chain when resolving open predictions.
@@ -140,7 +140,7 @@ async def write_on_chain_by_id(prediction_id: int) -> tuple[int | None, str | No
         row = await session.get(Prediction, prediction_id)
         if row is None:
             raise RuntimeError(f"prediction {prediction_id} not found")
-        # detach by copying primitives — no lazy loads after this
+        # detach by copying primitives; no lazy loads after this
         snapshot = Prediction(
             id=row.id,
             asset=row.asset,

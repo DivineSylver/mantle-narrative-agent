@@ -1,6 +1,6 @@
 """Application settings loaded from .env.
 
-Keep secrets out of source — copy `.env.example` to `.env` and fill in values.
+Keep secrets out of source: copy `.env.example` to `.env` and fill in values.
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     usdy_address: str = "0x5bE26527e817998A7206475496fDE1E68957c5A6"
     usdc_address: str = "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9"
 
-    # Database — default to SQLite (zero infra). Swap to
+    # Database: default to SQLite (zero infra). Swap to
     # postgresql+asyncpg://... in .env for prod / when Docker is available.
     database_url: str = "sqlite+aiosqlite:///./mantle_intel.db"
     redis_url: str = "redis://localhost:6379/0"
