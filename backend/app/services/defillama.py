@@ -50,6 +50,8 @@ _CATEGORY_MAP: Final[dict[str, str]] = {
     "DEX Aggregator": "DEX",
     "Lending": "Lending",
     "Liquid Staking": "LST",
+    "Liquid Restaking": "LST",
+    "Restaking": "LST",
     "Yield": "Yield",
     "Yield Aggregator": "Yield",
     "RWA": "RWA",
@@ -57,6 +59,8 @@ _CATEGORY_MAP: Final[dict[str, str]] = {
     "CDP": "Lending",
     "Cross Chain Bridge": "Bridge",
     "Bridge": "Bridge",
+    "Anchor BTC": "BTCFi",
+    "BTC LSTs": "BTCFi",
 }
 
 
@@ -85,8 +89,14 @@ async def fetch_mantle_protocols(min_tvl_usd: float = 500_000.0) -> list[dict[st
         for p in data:
             chains = p.get("chains") or []
             chain_tvls = p.get("chainTvls") or {}
-            mantle_tvl = chain_tvls.get("Mantle")
-            if "Mantle" not in chains or not isinstance(mantle_tvl, (int, float)):
+            # Sum the base Mantle bucket plus sub-buckets (Mantle-staking, Mantle-borrowed, etc.)
+            mantle_tvl = 0.0
+            saw_mantle = False
+            for key, value in chain_tvls.items():
+                if (key == "Mantle" or key.startswith("Mantle-")) and isinstance(value, (int, float)):
+                    mantle_tvl += float(value)
+                    saw_mantle = True
+            if not saw_mantle and "Mantle" not in chains:
                 continue
             if mantle_tvl < min_tvl_usd:
                 continue
@@ -131,6 +141,99 @@ async def fetch_mantle_chain_tvl() -> float:
             log.warning("llama_chain_tvl_failed", err=str(e))
         _store(cache_key, 0.0)
         return 0.0
+
+
+async def fetch_mantle_chain_tvl_change_24h() -> float:
+    """24h % change of Mantle chain TVL, from DeFiLlama historical series."""
+
+    cache_key = "mantle_chain_tvl_change_24h"
+    cached = _cached(cache_key)
+    if cached is not None:
+        return cached
+
+    async with _lock(cache_key):
+        cached = _cached(cache_key)
+        if cached is not None:
+            return cached
+        try:
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                r = await client.get(f"{_LLAMA_BASE}/v2/historicalChainTvl/Mantle")
+                r.raise_for_status()
+                series = r.json()
+        except Exception as e:  # noqa: BLE001
+            log.warning("llama_chain_tvl_hist_failed", err=str(e))
+            _store(cache_key, 0.0)
+            return 0.0
+
+        if not isinstance(series, list) or len(series) < 2:
+            _store(cache_key, 0.0)
+            return 0.0
+        try:
+            today_tvl = float(series[-1]["tvl"])
+            prev_tvl = float(series[-2]["tvl"])
+        except (KeyError, TypeError, ValueError):
+            _store(cache_key, 0.0)
+            return 0.0
+        if prev_tvl <= 0:
+            _store(cache_key, 0.0)
+            return 0.0
+        delta = (today_tvl - prev_tvl) / prev_tvl * 100.0
+        _store(cache_key, delta)
+        return delta
+
+
+async def fetch_llama_coin_markets(coin_ids: list[str]) -> dict[str, dict[str, float]]:
+    """Spot price + 24h change for CoinGecko coin ids, via DeFiLlama coins API.
+
+    DeFiLlama's coins API is uncapped and uses CoinGecko ids natively under the
+    `coingecko:<id>` namespace. Far more reliable from a shared cloud IP than
+    hitting CoinGecko directly.
+    """
+
+    if not coin_ids:
+        return {}
+
+    cache_key = f"llama_coins:{','.join(sorted(coin_ids))}"
+    cached = _cached(cache_key)
+    if cached is not None:
+        return cached
+
+    async with _lock(cache_key):
+        cached = _cached(cache_key)
+        if cached is not None:
+            return cached
+
+        keys = ",".join(f"coingecko:{cid}" for cid in coin_ids)
+        prices: dict[str, float] = {}
+        changes: dict[str, float] = {}
+        try:
+            async with httpx.AsyncClient(timeout=8.0) as client:
+                p = await client.get(f"https://coins.llama.fi/prices/current/{keys}")
+                p.raise_for_status()
+                price_data = (p.json() or {}).get("coins") or {}
+                for k, v in price_data.items():
+                    cid = k.split(":", 1)[1] if ":" in k else k
+                    if isinstance(v, dict) and isinstance(v.get("price"), (int, float)):
+                        prices[cid] = float(v["price"])
+
+                c = await client.get(f"https://coins.llama.fi/percentage/{keys}?period=24h")
+                c.raise_for_status()
+                change_data = (c.json() or {}).get("coins") or {}
+                for k, v in change_data.items():
+                    cid = k.split(":", 1)[1] if ":" in k else k
+                    if isinstance(v, (int, float)):
+                        changes[cid] = float(v)
+        except Exception as e:  # noqa: BLE001
+            log.warning("llama_coins_failed", err=str(e))
+            return {}
+
+        out = {
+            cid: {"price": prices[cid], "change24h": changes.get(cid, 0.0)}
+            for cid in coin_ids
+            if cid in prices
+        }
+        _store(cache_key, out)
+        return out
 
 
 async def fetch_coingecko_markets(coin_ids: list[str]) -> dict[str, dict[str, float]]:

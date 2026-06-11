@@ -15,7 +15,9 @@ from app.db.models import Narrative, Prediction, ProtocolMetric, WalletProfile, 
 from app.db.session import init_db, session_scope
 from app.services.defillama import (
     fetch_coingecko_markets,
+    fetch_llama_coin_markets,
     fetch_mantle_chain_tvl,
+    fetch_mantle_chain_tvl_change_24h,
     fetch_mantle_protocols,
 )
 from app.services.onchain_predictions import write_on_chain, write_on_chain_by_id
@@ -330,7 +332,9 @@ def create_app() -> FastAPI:
 
     @app.get(f"{api}/prices")
     async def prices() -> list[dict[str, Any]]:
-        # CoinGecko id mapping for tracked tokens
+        # CoinGecko id mapping for tracked tokens.
+        # Prices flow through DeFiLlama's coins API (uncapped) instead of
+        # CoinGecko directly, which rate-limits Render's shared IP.
         symbol_to_id = {
             "MNT": "mantle",
             "mETH": "mantle-staked-ether",
@@ -339,7 +343,9 @@ def create_app() -> FastAPI:
             "USDC": "usd-coin",
             "WETH": "weth",
         }
-        markets = await fetch_coingecko_markets(list(symbol_to_id.values()))
+        markets = await fetch_llama_coin_markets(list(symbol_to_id.values()))
+        if not markets:
+            markets = await fetch_coingecko_markets(list(symbol_to_id.values()))
 
         results: list[dict[str, Any]] = []
         for sym, cid in symbol_to_id.items():
@@ -368,14 +374,28 @@ def create_app() -> FastAPI:
         if chain_tvl == 0 and protocols_live:
             chain_tvl = sum(p["tvlUsd"] for p in protocols_live)
 
-        dex_tvl = sum(p["tvlUsd"] for p in protocols_live if p["category"] == "DEX")
-        lst_tvl = sum(p["tvlUsd"] for p in protocols_live if p["category"] == "LST")
-        rwa_tvl = sum(p["tvlUsd"] for p in protocols_live if p["category"] == "RWA")
+        # TVL-weighted 24h % change per category. Falls back to 0 when no data.
+        def _weighted_change(rows: list[dict[str, Any]]) -> float:
+            total = sum(r["tvlUsd"] for r in rows)
+            if total <= 0:
+                return 0.0
+            return sum(r["tvlUsd"] * r["tvlChange24h"] for r in rows) / total
+
+        dex_rows = [p for p in protocols_live if p["category"] == "DEX"]
+        lst_rows = [p for p in protocols_live if p["category"] == "LST"]
+        rwa_rows = [p for p in protocols_live if p["category"] == "RWA"]
+        lending_rows = [p for p in protocols_live if p["category"] == "Lending"]
+        dex_tvl = sum(p["tvlUsd"] for p in dex_rows)
+        lst_tvl = sum(p["tvlUsd"] for p in lst_rows)
+        rwa_tvl = sum(p["tvlUsd"] for p in rwa_rows)
+        lending_tvl = sum(p["tvlUsd"] for p in lending_rows)
         protocol_count = len(protocols_live)
 
-        # avg 24h delta as a proxy for ecosystem momentum
-        deltas = [p["tvlChange24h"] for p in protocols_live if p["tvlChange24h"]]
-        avg_delta = sum(deltas) / len(deltas) if deltas else 0.0
+        chain_delta = await fetch_mantle_chain_tvl_change_24h()
+        dex_delta = _weighted_change(dex_rows)
+        lst_delta = _weighted_change(lst_rows)
+        rwa_delta = _weighted_change(rwa_rows)
+        lending_delta = _weighted_change(lending_rows)
 
         async with session_scope() as session:
             cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
@@ -388,35 +408,47 @@ def create_app() -> FastAPI:
                 )
             ) or 0
 
+        # Show LST when there's data; otherwise surface Lending — never a $0 tile.
+        third_tile = (
+            {
+                "label": "Liquid Staking",
+                "value": _fmt_billions(lst_tvl),
+                "change": _fmt_change(lst_delta),
+                "positive": lst_delta >= 0,
+            }
+            if lst_tvl > 0
+            else {
+                "label": "Lending TVL",
+                "value": _fmt_billions(lending_tvl),
+                "change": _fmt_change(lending_delta),
+                "positive": lending_delta >= 0,
+            }
+        )
+
         return [
             {
                 "label": "Mantle TVL",
                 "value": _fmt_billions(chain_tvl),
-                "change": _fmt_change(avg_delta),
-                "positive": avg_delta >= 0,
+                "change": _fmt_change(chain_delta),
+                "positive": chain_delta >= 0,
             },
             {
                 "label": "DEX TVL",
                 "value": _fmt_billions(dex_tvl),
-                "change": _fmt_change(avg_delta),
-                "positive": avg_delta >= 0,
+                "change": _fmt_change(dex_delta),
+                "positive": dex_delta >= 0,
             },
-            {
-                "label": "Liquid Staking",
-                "value": _fmt_billions(lst_tvl),
-                "change": "+1.9%",
-                "positive": True,
-            },
+            third_tile,
             {
                 "label": "RWA TVL",
                 "value": _fmt_billions(rwa_tvl),
-                "change": "+11.4%",
-                "positive": True,
+                "change": _fmt_change(rwa_delta),
+                "positive": rwa_delta >= 0,
             },
             {
                 "label": "Protocols (Mantle)",
                 "value": str(protocol_count),
-                "change": "+0",
+                "change": f"{active_wallets} active",
                 "positive": True,
             },
             {
